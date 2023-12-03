@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator, Validat
 # Create your models here.
 class Thing(models.Model):
     name = models.CharField(max_length=30, unique=True, blank = False)
-    description = models.TextField(blank=True, max_length=120)
+    description = models.charField(max_length=120, blank = True)
     quantity = models.IntegerField(unique = False)
     
     def clean(self):
