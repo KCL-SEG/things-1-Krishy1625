@@ -1,15 +1,19 @@
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 
 # Create your models here.
 class Thing(models.Model):
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=30, unique=True, blank = False)
     description = models.TextField(blank=True, max_length=120)
-    quantity = models.IntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(100)]
-    )
-
+    quantity = models.IntegerField(unique = False)
+    
     def clean(self):
         super().clean()
-        if Thing.objects.exclude(pk=self.pk).filter(name=self.name).exists():
-            raise ValidationError({'name': 'Name must be unique'})
+        if self.quantity < 0:
+            raise ValidationError("Quantity must not be negative")
+        if self.quantity > 100:
+            raise ValidationError("Quantity must not be greater than 100")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()  # Run full_clean() before saving to ensure validation
+        super().save(*args, **kwargs)
