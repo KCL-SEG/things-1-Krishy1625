@@ -17,3 +17,4 @@ class Thing(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()  # Run full_clean() before saving to ensure validation
         super().save(*args, **kwargs)
+        #pass
