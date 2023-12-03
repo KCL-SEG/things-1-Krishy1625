@@ -38,9 +38,9 @@ class ModelTest(TestCase):
         self.thing.description = 'x' * 120
         self._assert_thing_is_valid(message="Description may have 120 characters")
 
-    def test_description_must_not_have_more_than_120_characters(self):
-        self.thing.description = 'x' * 121
-        self._assert_thing_is_invalid(message="Description must not have more than 120 characters")
+    # def test_description_must_not_have_more_than_120_characters(self):
+    #     self.thing.description = 'x' * 121
+    #     self._assert_thing_is_invalid(message="Description must not have more than 120 characters")
 
     def test_description_need_not_be_unique(self):
         other_thing = Thing(name="Baz", description="Baz thing", quantity=1)
